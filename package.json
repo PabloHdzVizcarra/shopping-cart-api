@@ -1,0 +1,28 @@
+{
+  "name": "shopping-cart-api",
+  "version": "1.0.0",
+  "description": "API ",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "nodemon": "^2.0.6"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PabloHdzVizcarra/shopping-cart-api.git"
+  },
+  "author": "Pablo Hernandez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PabloHdzVizcarra/shopping-cart-api/issues"
+  },
+  "homepage": "https://github.com/PabloHdzVizcarra/shopping-cart-api#readme"
+}
