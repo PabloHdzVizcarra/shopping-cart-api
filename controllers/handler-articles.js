@@ -1,20 +1,31 @@
-const { ArticleCart } = require("../models/article-schema")
+const ArticleCart  = require("../models/article-schema")
 
 exports.getAllArticles = (req, res) => {
   res.send('obteniendo los articulos')
 }
 
-exports.addProductCart = (req, res) => {
+exports.addProductCart = async (req, res) => {
   console.log(req.body);
-  const newArticle = new ArticleCart({
-    name: req.body[1],
-    price: req.body[3]
-  })
-  
-  console.log(newArticle);
 
-  res.send({
-    result: true,
-    errors: false
+  const newArticle = new ArticleCart({
+    name: req.body.name,
+    price: req.body.price
   })
+  console.log(newArticle)
+  
+  try {
+    await newArticle.save()
+    console.log('Todo bien')
+
+    res.json({
+      result: true,
+      errors: false,
+      savedArticle: newArticle
+    })
+
+  } catch (error) {
+    console.log('Hubo un error')
+    console.log(error)
+  }
+
 }

@@ -6,8 +6,4 @@ const articleSchema = new Schema({
   price: Number,
 })
 
-const ArticleCart = mongoose.model('ArticleCart', articleSchema)
-
-module.exports = {
-  ArticleCart
-}
+module.exports = mongoose.model('ArticleCart', articleSchema)
