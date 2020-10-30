@@ -8,5 +8,6 @@ dotenv.config({
 module.exports = {
   NODE_ENV: process.env.NODE_ENV || "development",
   HOST: process.env.HOST || "localhost",
-  PORT: process.env.PORT || "3000"
+  PORT: process.env.PORT || "3000",
+  DB_URL: process.env.DB_URL || "mongodb://127.0.0.1:27017/default"
 }
