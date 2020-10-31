@@ -1,7 +1,7 @@
 const ArticleCart  = require("../models/article-schema")
 
 exports.getAllArticles = (req, res) => {
-  res.send('obteniendo los articulos')
+  res.send('Get data from database')
 }
 
 exports.addProductCart = async (req, res) => {
@@ -15,7 +15,7 @@ exports.addProductCart = async (req, res) => {
   
   try {
     await newArticle.save()
-    console.log('Todo bien')
+    console.info('Save data successfull')
 
     res.json({
       result: true,
@@ -24,8 +24,20 @@ exports.addProductCart = async (req, res) => {
     })
 
   } catch (error) {
-    console.log('Hubo un error')
     console.log(error)
   }
 
+}
+
+exports.getAllProductsCart = async (req, res) => {
+  try {
+    const dataFromDB = await ArticleCart.find({})
+    res.json(dataFromDB)
+    
+  } catch (error) {
+    res.json({
+      error: true,
+      message: error
+    })
+  }
 }
