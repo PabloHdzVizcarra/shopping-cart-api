@@ -35,9 +35,30 @@ exports.getAllProductsCart = async (req, res) => {
     res.json(dataFromDB)
     
   } catch (error) {
-    res.json({
+    res.status(404).json({
       error: true,
       message: error
     })
+  }
+}
+
+exports.deleteOneProductById = async (req, res) => {
+  const { id } = req.body
+  
+  try {
+    const deleteElement = await ArticleCart.findByIdAndDelete(id)
+    if (!deleteElement) {
+      res.status().json({
+        message: "No item found"
+      })
+      return 
+    }
+
+     res.json({
+      message: "deleted element"
+    })
+
+  } catch (error) {
+    res.status(500).send(error)
   }
 }
