@@ -1,23 +1,21 @@
 const ArticleCart  = require("../models/article-schema")
 
 exports.getAllArticles = (req, res) => {
-  res.send('Get data from database')
+  res.json({message: 'Ready'})
 }
 
 exports.addProductCart = async (req, res) => {
-  console.log(req.body);
 
   const newArticle = new ArticleCart({
     name: req.body.name,
     price: req.body.price
   })
-  console.log(newArticle)
   
   try {
     await newArticle.save()
-    console.info('Save data successfull')
+    console.info('Save data successfull in database')
 
-    res.json({
+    res.status(201).json({
       result: true,
       errors: false,
       savedArticle: newArticle
@@ -48,15 +46,17 @@ exports.deleteOneProductById = async (req, res) => {
   try {
     const deleteElement = await ArticleCart.findByIdAndDelete(id)
     if (!deleteElement) {
-      res.status().json({
+      res.status(404).json({
         message: "No item found"
       })
       return 
     }
 
-     res.json({
-      message: "deleted element"
+    res.status(201).json({
+      idItemDeleted: id
     })
+
+    return
 
   } catch (error) {
     res.status(500).send(error)
