@@ -3,13 +3,8 @@
   "version": "1.0.0",
   "description": "API ",
   "main": "index.js",
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  },
   "dependencies": {
+    "@types/jest": "^26.0.15",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
