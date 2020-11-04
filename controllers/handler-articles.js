@@ -62,3 +62,11 @@ exports.deleteOneProductById = async (req, res) => {
     res.status(500).send(error)
   }
 }
+
+exports.loginUser = async (req, res) => {
+  console.log(req.body)
+
+  res.json({
+    message: "Done"
+  })
+} 
