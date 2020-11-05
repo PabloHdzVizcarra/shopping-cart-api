@@ -63,20 +63,31 @@ exports.deleteOneProductById = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-  console.log(req.body)
-
-  res.json({
-    message: "Done"
-  })
-
-  const userFromDB = await UsersAuthSchema.findOne(req.params)
-  console.log(userFromDB)
-
-  res.json({
-    message: "Done"
-  })
+  const { email, password } = req.body
   
+  try {
+    const userFromDB = await UsersAuthSchema.findOne({ email: email })
+    console.log(userFromDB)
+
+    if (!userFromDB) {
+      res.status(400).send({message: "No existe ningun usuario con ese email"})
+    }
+
+    if (!bcrypt.compareSync(password, userFromDB.password)) {
+      res.status(400).send({message: "The password is invalid"})
+    }
+    
+    res.json({
+      error: false,
+      dataUser: userFromDB
+    })
+
+  } catch (error) {
+    res.json({error})
+  }
 }
+  
+
 
 exports.registerUser = async(req, res) => {
   const { email, password, username } = req.body
