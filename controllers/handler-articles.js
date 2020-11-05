@@ -79,13 +79,11 @@ exports.loginUser = async (req, res, next) => {
       return res.status(400).send({message: "The password is invalid"})
     }
 
-    const payload = {
-      check: true
-    }
-
-    const token = jwt.sign(payload, config.KEY_JWT, {
-      expiresIn: 1440
-    })
+    const token = jwt.sign(
+      { email, username: userFromDB.username, id: userFromDB._id},
+      config.KEY_JWT,
+      { expiresIn: '1h' }
+    )
     
     res.json({
       dataUser: userFromDB,
