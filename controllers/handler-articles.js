@@ -78,6 +78,7 @@ exports.loginUser = async (req, res) => {
 
 exports.registerUser = async (req, res) => {
   const { email, password, username } = req.body
+  return 
 
   const userCreated = new UsersAuthSchema({
     email, password, username
