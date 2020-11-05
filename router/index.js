@@ -7,10 +7,11 @@ module.exports = () => {
 
   router.get('/api', handlersArticles.getAllArticles)
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
-  router.post('/api/auth/login-user', handlersArticles.loginUser)
-  router.post('/api/auth/register-user', handlersArticles.registerUser)
   router.get('/api/all-products-cart', handlersArticles.getAllProductsCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
+
+  router.post('/api/auth/login-user', handlersArticles.loginUser)
+  router.post('/api/auth/register-user', handlersArticles.registerUser)
 
   return router
 }

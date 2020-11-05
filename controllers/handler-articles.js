@@ -1,6 +1,8 @@
 const ArticleCart  = require("../models/article-schema")
 const { UsersAuthSchema } = require("../models/user-schema")
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 exports.getAllArticles = (req, res) => {
   res.json({message: 'Ready'})
@@ -76,10 +78,18 @@ exports.loginUser = async (req, res, next) => {
     if (!bcrypt.compareSync(password, userFromDB.password)) {
       return res.status(400).send({message: "The password is invalid"})
     }
+
+    const payload = {
+      check: true
+    }
+
+    const token = jwt.sign(payload, config.KEY_JWT, {
+      expiresIn: 1440
+    })
     
     res.json({
-      error: false,
-      dataUser: userFromDB
+      dataUser: userFromDB,
+      token: token
     })
 
   } catch (error) {
