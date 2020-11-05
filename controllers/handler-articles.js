@@ -82,7 +82,7 @@ exports.loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { email, username: userFromDB.username, id: userFromDB._id},
       config.KEY_JWT,
-      { expiresIn: '1h' }
+      { expiresIn: '10000ms' }
     )
     
     res.json({
@@ -122,16 +122,24 @@ exports.registerUser = async(req, res) => {
 }
 
 exports.verifyUser = ((req, res) => {
-  console.log(req.params.token)
-  const decoded = jwt.verify(req.params.token, config.KEY_JWT)
-  
+  jwt.verify(req.params.token, config.KEY_JWT, (err, decoded) => {
+    console.log(decoded)
 
-  res.json({
-    dataUser: {
-      email: decoded.email,
-      username: decoded.username,
-      id: decoded.id
-    },
-    isAuthenticated: true
+    if (!decoded) {
+      return res.json({
+        message: "El token ya expiro"
+      })
+    }
+
+    res.json({
+      dataUser: {
+        email: decoded.email,
+        username: decoded.username,
+        id: decoded.id
+      },
+      isAuthenticated: true
+    })
+
   })
+  
 }) 
