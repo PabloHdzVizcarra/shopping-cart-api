@@ -62,7 +62,7 @@ exports.deleteOneProductById = async (req, res) => {
   }
 }
 
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body
   
   try {
@@ -70,11 +70,11 @@ exports.loginUser = async (req, res) => {
     console.log(userFromDB)
 
     if (!userFromDB) {
-      res.status(400).send({message: "No existe ningun usuario con ese email"})
+      return res.status(400).send({message: "No existe ningun usuario con ese email"})
     }
 
     if (!bcrypt.compareSync(password, userFromDB.password)) {
-      res.status(400).send({message: "The password is invalid"})
+      return res.status(400).send({message: "The password is invalid"})
     }
     
     res.json({
@@ -83,8 +83,9 @@ exports.loginUser = async (req, res) => {
     })
 
   } catch (error) {
-    res.json({error})
-  }
+    return res.send(error.message)
+  } 
+
 }
   
 
