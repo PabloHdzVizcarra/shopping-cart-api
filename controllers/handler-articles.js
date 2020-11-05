@@ -1,4 +1,5 @@
 const ArticleCart  = require("../models/article-schema")
+const { UsersAuthSchema } = require("../models/user-schema")
 
 exports.getAllArticles = (req, res) => {
   res.json({message: 'Ready'})
@@ -64,9 +65,28 @@ exports.deleteOneProductById = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-  console.log(req.body)
+  console.log(req.params)
+
+  const userFromDB = await UsersAuthSchema.findOne(req.params)
+  console.log(userFromDB)
 
   res.json({
     message: "Done"
   })
-} 
+  
+}
+
+exports.registerUser = async (req, res) => {
+  const { email, password, username } = req.body
+
+  const userCreated = new UsersAuthSchema({
+    email, password, username
+  })
+
+  await userCreated.save()
+  
+  console.log(userCreated)
+  res.json({
+    user: userCreated
+  })
+}

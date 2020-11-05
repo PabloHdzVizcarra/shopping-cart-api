@@ -6,4 +6,4 @@ const articleSchema = new Schema({
   price: Number,
 })
 
-module.exports = mongoose.model('ArticleCart', articleSchema)
+module.exports = mongoose.model('articleCart', articleSchema)
