@@ -1,5 +1,6 @@
 const ArticleCart  = require("../models/article-schema")
 const { UsersAuthSchema } = require("../models/user-schema")
+const bcrypt = require('bcrypt')
 
 exports.getAllArticles = (req, res) => {
   res.json({message: 'Ready'})
@@ -49,15 +50,12 @@ exports.deleteOneProductById = async (req, res) => {
     if (!deleteElement) {
       res.status(404).json({
         message: "No item found"
-      })
-      return 
+      }) 
     }
 
     res.status(201).json({
       idItemDeleted: id
     })
-
-    return
 
   } catch (error) {
     res.status(500).send(error)
@@ -65,7 +63,11 @@ exports.deleteOneProductById = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-  console.log(req.params)
+  console.log(req.body)
+
+  res.json({
+    message: "Done"
+  })
 
   const userFromDB = await UsersAuthSchema.findOne(req.params)
   console.log(userFromDB)
@@ -76,18 +78,25 @@ exports.loginUser = async (req, res) => {
   
 }
 
-exports.registerUser = async (req, res) => {
+exports.registerUser = async(req, res) => {
   const { email, password, username } = req.body
-  return 
-
-  const userCreated = new UsersAuthSchema({
-    email, password, username
-  })
-
-  await userCreated.save()
+  const passwordHash = bcrypt.hashSync(password, 10)
   
-  console.log(userCreated)
-  res.json({
-    user: userCreated
-  })
+  try {
+    const userCreated = new UsersAuthSchema({
+      email, password: passwordHash, username
+    })
+    await userCreated.save()
+
+    res.status(201).json({
+      error: false,
+      dataUser: userCreated
+    })
+
+  } catch (error) {
+     res.status(400).json({
+      error: true,
+      type: error
+    })
+  }
 }
