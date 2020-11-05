@@ -120,3 +120,18 @@ exports.registerUser = async(req, res) => {
     })
   }
 }
+
+exports.verifyUser = ((req, res) => {
+  console.log(req.params.token)
+  const decoded = jwt.verify(req.params.token, config.KEY_JWT)
+  
+
+  res.json({
+    dataUser: {
+      email: decoded.email,
+      username: decoded.username,
+      id: decoded.id
+    },
+    isAuthenticated: true
+  })
+}) 
