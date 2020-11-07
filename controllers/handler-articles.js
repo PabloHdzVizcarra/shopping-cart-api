@@ -130,31 +130,50 @@ exports.registerUser = async(req, res) => {
 }
 
 exports.verifyUser = ((req, res) => {
-  jwt.verify(req.cookies.token, config.KEY_JWT, (err, decoded) => {
+  jwt.verify(req.cookies.token, config.KEY_JWT, async (err, decoded) => {
 
     if (!decoded) {
       LOG("No se encontro usuario")
 
-      return res.json({
+      res.json({
         message: "El token ya expiro"
       })
+      return null
     }
     
     if (err) {
       LOG(err)
+      res.json({
+        err
+      })
+      return null
     }
+    
+    try {
+      const userFromDB = await UsersAuthSchema.findOne({ email: decoded.email})
 
-    LOG('Usuario verificado con exito ')
-    res.json({
-      dataUser: {
-        email: decoded.email,
-        username: decoded.username,
-        id: decoded.id
-      },
-      isAuthenticated: true
-    })
+      if (userFromDB) {
+        LOG('Usuario verificado con exito ')
+        res.json({
+          dataUser: {
+            email: decoded.email,
+            username: decoded.username,
+            id: decoded.id
+          },
+          isAuthenticated: true
+        })
 
+        return null
+      }
 
+      LOG('El usuario no existe')
+      res.status(404).json({
+        message: 'No existe ese usuario'
+      })
+      
+    } catch (error) {
+      LOG(error)
+      res.json({error})
+    }
   })
-  
 }) 

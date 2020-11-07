@@ -20,7 +20,8 @@
     "supports-color": "^7.2.0"
   },
   "devDependencies": {
-    "eslint": "^7.12.1",
+    "eslint": "^7.13.0",
+    "eslint-plugin-react": "^7.21.5",
     "nodemon": "^2.0.6",
     "supertest": "^6.0.0"
   },
