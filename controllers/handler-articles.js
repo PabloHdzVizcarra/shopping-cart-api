@@ -92,8 +92,9 @@ exports.loginUser = async (req, res, next) => {
     LOG('Usuario logeado con exito')
     
     res.json({
-      dataUser: userFromDB,
-      token: token
+      username: userFromDB.username,
+      email: userFromDB.email,
+      id: userFromDB._id
     })
 
   } catch (error) {
