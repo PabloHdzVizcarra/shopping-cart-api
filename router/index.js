@@ -12,7 +12,7 @@ module.exports = () => {
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
 
   router.post('/api/auth/login-user', handlersArticles.loginUser)
-  router.get('/api/auth/verify-user/:token', handlersArticles.verifyUser)
+  router.get('/api/auth/verify-user', handlersArticles.verifyUser)
   router.post('/api/auth/register-user', handlersArticles.registerUser)
 
   return router

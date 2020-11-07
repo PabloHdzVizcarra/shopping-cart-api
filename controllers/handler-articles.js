@@ -130,7 +130,7 @@ exports.registerUser = async(req, res) => {
 }
 
 exports.verifyUser = ((req, res) => {
-  jwt.verify(req.params.token, config.KEY_JWT, (err, decoded) => {
+  jwt.verify(req.cookies.token, config.KEY_JWT, (err, decoded) => {
 
     if (!decoded) {
       LOG("No se encontro usuario")
