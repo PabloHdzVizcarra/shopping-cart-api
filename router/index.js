@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const handlersArticles = require('../controllers/handler-articles')
-require('../config')
+const config = require('../config')
+const jwtExpress = require('express-jwt')
 
 module.exports = () => {
 

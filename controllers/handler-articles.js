@@ -3,6 +3,7 @@ const { UsersAuthSchema } = require("../models/user-schema")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const LOG = require('debug')('app')
 
 exports.getAllArticles = (req, res) => {
   res.json({message: 'Ready'})
@@ -17,7 +18,7 @@ exports.addProductCart = async (req, res) => {
   
   try {
     await newArticle.save()
-    console.info('Save data successfull in database')
+    LOG('Guardaste un objeto con exito en la DB')
 
     res.status(201).json({
       result: true,
@@ -26,7 +27,7 @@ exports.addProductCart = async (req, res) => {
     })
 
   } catch (error) {
-    console.log(error)
+    LOG(error)
   }
 
 }
@@ -34,6 +35,7 @@ exports.addProductCart = async (req, res) => {
 exports.getAllProductsCart = async (req, res) => {
   try {
     const dataFromDB = await ArticleCart.find({})
+    LOG('Se obtienen todos los productos de la DB')
     res.json(dataFromDB)
     
   } catch (error) {
@@ -55,6 +57,7 @@ exports.deleteOneProductById = async (req, res) => {
       }) 
     }
 
+    LOG('Se elimina un producto con exito de la DB')
     res.status(201).json({
       idItemDeleted: id
     })
@@ -69,7 +72,6 @@ exports.loginUser = async (req, res, next) => {
   
   try {
     const userFromDB = await UsersAuthSchema.findOne({ email: email })
-    console.log(userFromDB)
 
     if (!userFromDB) {
       return res.status(400).send({message: "No existe ningun usuario con ese email"})
@@ -82,8 +84,12 @@ exports.loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { email, username: userFromDB.username, id: userFromDB._id},
       config.KEY_JWT,
-      { expiresIn: '10000ms' }
+      { expiresIn: '1h' }
     )
+
+    res.cookie('token', token, { httpOnly: true })
+    
+    LOG('Usuario logeado con exito')
     
     res.json({
       dataUser: userFromDB,
@@ -108,6 +114,7 @@ exports.registerUser = async(req, res) => {
     })
     await userCreated.save()
 
+    LOG('Se registra usuario con exito en la DB')
     res.status(201).json({
       error: false,
       dataUser: userCreated
@@ -123,14 +130,20 @@ exports.registerUser = async(req, res) => {
 
 exports.verifyUser = ((req, res) => {
   jwt.verify(req.params.token, config.KEY_JWT, (err, decoded) => {
-    console.log(decoded)
 
     if (!decoded) {
+      LOG("No se encontro usuario")
+
       return res.json({
         message: "El token ya expiro"
       })
     }
+    
+    if (err) {
+      LOG(err)
+    }
 
+    LOG('Usuario verificado con exito ')
     res.json({
       dataUser: {
         email: decoded.email,
@@ -139,6 +152,7 @@ exports.verifyUser = ((req, res) => {
       },
       isAuthenticated: true
     })
+
 
   })
   
