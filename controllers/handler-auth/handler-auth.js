@@ -147,10 +147,18 @@ exports.createAdminUsers = async (req, res) => {
     isAdmin: true,
   }
 
-  const newAdminUser = new AdminUsersSchema({ ...adminUser })
-  await newAdminUser.save()
+  try {
+    
+    const newAdminUser = new AdminUsersSchema({ ...adminUser })
+    await newAdminUser.save()
 
-  res.json({
-    msg: "Usuario administrativo creado con exito"
-  })
+    res.json({
+      msg: "Usuario administrativo creado con exito"
+    })
+  } catch (error) {
+    res.status(409).json({
+      msg: error.message
+    })
+  }
+  
 }
