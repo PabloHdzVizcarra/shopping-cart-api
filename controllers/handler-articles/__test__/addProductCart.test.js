@@ -1,6 +1,5 @@
 const request = require('supertest')
 const app = require('../../../app')
-require('jest-fetch-mock').enableMocks()
 
 describe('Test end-point "/api/add-product-cart"', () => {
 
@@ -53,9 +52,6 @@ describe('Test end-point "/api/add-product-cart"', () => {
     const data = JSON.parse(res.text)
     expect(res.status).toBe(400)
     expect(data.error).toBeTruthy()
-
-    
   })
-  
   
 })

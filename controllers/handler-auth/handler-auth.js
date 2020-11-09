@@ -113,3 +113,11 @@ exports.verifyUser = ((req, res) => {
     }
   })
 }) 
+
+exports.adminUsers = (req, res) => {
+  res.json({data: 'exito'})
+}
+
+exports.saveArticle = (req, res) => {
+  res.json({info: "Guardando articulo"})
+}

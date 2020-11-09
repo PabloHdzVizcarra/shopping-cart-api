@@ -1,8 +1,4 @@
 const ArticleCart  = require("../../models/article-schema")
-const { UsersAuthSchema } = require("../../models/user-schema")
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const config = require('../../config')
 const LOG = require('debug')('app')
 
 exports.init = (req, res) => {
