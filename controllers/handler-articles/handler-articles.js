@@ -5,18 +5,25 @@ const jwt = require('jsonwebtoken')
 const config = require('../../config')
 const LOG = require('debug')('app')
 
-exports.getAllArticles = (req, res) => {
+exports.init = (req, res) => {
   res.json({message: 'Ready'})
 }
 
 exports.addProductCart = async (req, res) => {
 
-  const newArticle = new ArticleCart({
-    name: req.body.name,
-    price: req.body.price
-  })
+  if (!req.body.name || !req.body.price) {
+    res.status(400).json({
+      error: true,
+      message: "Enviaste algunos datos invalidos"
+    })
+  }
   
   try {
+    const newArticle = new ArticleCart({
+      name: req.body.name,
+      price: req.body.price
+    })
+
     await newArticle.save()
     LOG('Guardaste un objeto con exito en la DB')
 
@@ -27,6 +34,7 @@ exports.addProductCart = async (req, res) => {
     })
 
   } catch (error) {
+    res.status(400)
     LOG(error)
   }
 

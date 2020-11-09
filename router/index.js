@@ -7,7 +7,7 @@ const jwtExpress = require('express-jwt')
 
 module.exports = () => {
 
-  router.get('/api', handlersArticles.getAllArticles)
+  router.get('/api', handlersArticles.init)
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
   router.get('/api/all-products-cart',
