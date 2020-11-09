@@ -114,20 +114,54 @@ exports.verifyUser = ((req, res) => {
   })
 }) 
 
+/* ------------------------- /api/v1/log-admin-users ------------------------ */
+
 exports.adminUsers = async (req, res) => {
   LOG("Log with admin user")
+  const { username, password } = req.body
 
-  const userFromDB = await UsersAuthSchema.findOne({
-    username: req.body.username,
-  })
+  try {
+    const userFromDB = await AdminUsersSchema.findOne({ username: 'error' })
+    if (!userFromDB) {
+      res.status(409).json({
+        error: true,
+        msg: "No existe ese usuario"
+      })
+      return null
+    }
 
-  LOG(req.body)
-  res.json({data: 'exito'})
+    LOG(userFromDB)
+
+    if (!bcrypt.compareSync(password, userFromDB.password)) {
+      return res.status(400).send({message: "La password que ingresaste no coincide"})
+    }
+  
+    res.json({
+      error: false,
+      userData: {
+        username: userFromDB.username,
+        id: userFromDB._id,
+        isAdmin: true
+      }
+    })
+    
+  } catch (error) {
+    res.status(409).json({
+      error: true,
+      msg: error.message
+    })
+  }
+
 }
+
+/* -------------------------------------------------------------------------- */
+
 
 exports.saveArticle = (req, res) => {
   res.json({info: "Guardando articulo"})
 }
+
+/* ----------------------- /api/v1/create-admin-users ----------------------- */
 
 exports.createAdminUsers = async (req, res) => {
   const { passwordAdmin, dataUser } = req.body
