@@ -11,5 +11,6 @@ module.exports = {
   PORT: process.env.PORT || "3000",
   DB_URL: process.env.DB_URL || "mongodb://locahost:27017/default",
   KEY_JWT: process.env.KEY_JWT || "data",
-  JWT_SECRET: process.env.JWT_SECRET || 'futbol5489all'
+  JWT_SECRET: process.env.JWT_SECRET || 'futbol5489all',
+  PASSWORD_ADMIN: process.env.PASSWORD_ADMIN || ""
 }

@@ -2,6 +2,7 @@ const { UsersAuthSchema } = require('../../models/user-schema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../../config')
+const { AdminUsersSchema } = require('../../models/admin-users-schema')
 const LOG = require('debug')('app')
 
 exports.loginUser = async (req, res) => {
@@ -42,7 +43,6 @@ exports.loginUser = async (req, res) => {
 
 exports.registerUser = async(req, res) => {
   const { email, password, username } = req.body
-  console.log(req.body)
   const passwordHash = bcrypt.hashSync(password, 10)
   
   try {
@@ -114,12 +114,43 @@ exports.verifyUser = ((req, res) => {
   })
 }) 
 
-exports.adminUsers = (req, res) => {
+exports.adminUsers = async (req, res) => {
   LOG("Log with admin user")
+
+  const userFromDB = await UsersAuthSchema.findOne({
+    username: req.body.username,
+  })
+
   LOG(req.body)
   res.json({data: 'exito'})
 }
 
 exports.saveArticle = (req, res) => {
   res.json({info: "Guardando articulo"})
+}
+
+exports.createAdminUsers = async (req, res) => {
+  const { passwordAdmin, dataUser } = req.body
+  
+
+  if (passwordAdmin !== config.PASSWORD_ADMIN) {
+    res.status(401).json({
+      msg: "Ingresaste tu admin password incorrecta"
+    })
+  }
+
+  const passwordHash = bcrypt.hashSync(dataUser.password, 10)
+
+  const adminUser = {
+    username: dataUser.name,
+    password: passwordHash,
+    isAdmin: true,
+  }
+
+  const newAdminUser = new AdminUsersSchema({ ...adminUser })
+  await newAdminUser.save()
+
+  res.json({
+    msg: "Usuario administrativo creado con exito"
+  })
 }

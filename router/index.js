@@ -24,6 +24,7 @@ module.exports = () => {
   router.post('/api/auth/register-user', handlerAuth.registerUser)
   
   router.post('/api/v1/admin-users', handlerAuth.adminUsers)
+  router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
   router.post('/api/v1/admin-users/save-article', handlerAuth.saveArticle)
 
   return router
