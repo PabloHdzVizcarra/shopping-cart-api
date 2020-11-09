@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
+const collectionName = 'user_accounts'
 
 const usersSchema = new Schema({
   email: {
@@ -18,7 +19,7 @@ const usersSchema = new Schema({
   }
 })
 
-const UsersAuthSchema = mongoose.model('usersAuth', usersSchema)
+const UsersAuthSchema = mongoose.model('usersAuth', usersSchema, collectionName)
 
 module.exports = {
   UsersAuthSchema

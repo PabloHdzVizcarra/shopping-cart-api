@@ -115,6 +115,8 @@ exports.verifyUser = ((req, res) => {
 }) 
 
 exports.adminUsers = (req, res) => {
+  LOG("Log with admin user")
+  LOG(req.body)
   res.json({data: 'exito'})
 }
 

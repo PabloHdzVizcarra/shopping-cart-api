@@ -23,7 +23,7 @@ module.exports = () => {
   router.get('/api/auth/verify-user', handlerAuth.verifyUser)
   router.post('/api/auth/register-user', handlerAuth.registerUser)
   
-  router.get('/api/v1/admin-users', handlerAuth.adminUsers)
+  router.post('/api/v1/admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/admin-users/save-article', handlerAuth.saveArticle)
 
   return router
