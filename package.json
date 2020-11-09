@@ -22,12 +22,13 @@
   "devDependencies": {
     "eslint": "^7.13.0",
     "eslint-plugin-react": "^7.21.5",
+    "jest-fetch-mock": "^3.0.3",
     "nodemon": "^2.0.6",
     "supertest": "^6.0.0"
   },
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
-    "test": "NODE_ENV=test jest --watch",
+    "test": "NODE_ENV=test jest --watch --runInBand --detectOpenHandles",
     "start": "node index.js"
   },
   "repository": {

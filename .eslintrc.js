@@ -1,3 +1,5 @@
+const { enable } = require("debug");
+
 module.exports = {
     "env": {
         "browser": true,
@@ -19,5 +21,6 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "jest": enable
     }
 };

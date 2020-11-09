@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
-const handlersArticles = require('../controllers/handler-articles')
+const handlersArticles = require('../controllers/handler-articles/handler-articles')
+const handlerAuth = require('../controllers/handler-auth/handler-auth')
 const config = require('../config')
 const jwtExpress = require('express-jwt')
 
@@ -8,12 +9,19 @@ module.exports = () => {
 
   router.get('/api', handlersArticles.getAllArticles)
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
-  router.get('/api/all-products-cart', handlersArticles.getAllProductsCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
+  router.get('/api/all-products-cart',
+    jwtExpress({
+      secret: config.KEY_JWT,
+      getToken:  req => req.cookies.token,
+      algorithms: ['HS256']
+    }),
+    handlersArticles.getAllProductsCart
+  )
 
-  router.post('/api/auth/login-user', handlersArticles.loginUser)
-  router.get('/api/auth/verify-user', handlersArticles.verifyUser)
-  router.post('/api/auth/register-user', handlersArticles.registerUser)
+  router.post('/api/auth/login-user', handlerAuth.loginUser)
+  router.get('/api/auth/verify-user', handlerAuth.verifyUser)
+  router.post('/api/auth/register-user', handlerAuth.registerUser)
 
   return router
 }
