@@ -12,11 +12,9 @@ const articleSchema = new Schema({
   },
   category: {
     type: String,
-    required: true
   },
-  urlImage: {
+  image: {
     type: String,
-    required: true
   }
 })
 

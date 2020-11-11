@@ -8,7 +8,7 @@ exports.init = (req, res) => {
 exports.addProductCart = async (req, res) => {
 
   if (!req.body.name || !req.body.price) {
-    res.status(400).json({
+    return res.status(400).json({
       error: true,
       message: "Enviaste algunos datos invalidos"
     })
@@ -17,21 +17,23 @@ exports.addProductCart = async (req, res) => {
   try {
     const newArticle = new ArticleCart({
       name: req.body.name,
-      price: req.body.price
+      price: req.body.price,
+      category: 'General',
+      image: req.body.image
     })
 
     await newArticle.save()
     LOG('Guardaste un objeto con exito en la DB')
 
-    res.status(201).json({
+    return res.status(201).json({
       result: true,
       errors: false,
       savedArticle: newArticle
     })
 
   } catch (error) {
-    res.status(400)
     LOG(error)
+    return res.status(400)
   }
 
 }

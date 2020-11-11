@@ -12,7 +12,10 @@ exports.loginUser = async (req, res) => {
     const userFromDB = await UsersAuthSchema.findOne({ email: email })
 
     if (!userFromDB) {
-      return res.status(400).send({message: "No existe ningun usuario con ese email"})
+      return res.status(400).send({
+        error: true,
+        message: "No existe ningun usuario con ese email"
+      })
     }
 
     if (!bcrypt.compareSync(password, userFromDB.password)) {
@@ -36,6 +39,7 @@ exports.loginUser = async (req, res) => {
     })
 
   } catch (error) {
+    LOG("Error al loguear usuario")
     return res.send(error.message)
   } 
 
@@ -121,7 +125,7 @@ exports.adminUsers = async (req, res) => {
   const { username, password } = req.body
 
   try {
-    const userFromDB = await AdminUsersSchema.findOne({ username: 'error' })
+    const userFromDB = await AdminUsersSchema.findOne({ username })
     if (!userFromDB) {
       res.status(409).json({
         error: true,
@@ -133,7 +137,10 @@ exports.adminUsers = async (req, res) => {
     LOG(userFromDB)
 
     if (!bcrypt.compareSync(password, userFromDB.password)) {
-      return res.status(400).send({message: "La password que ingresaste no coincide"})
+      return res.status(400).send({
+        error: true,
+        message: "La password que ingresaste no coincide"
+      })
     }
   
     res.json({
