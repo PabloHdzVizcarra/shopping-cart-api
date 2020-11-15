@@ -1,12 +1,15 @@
-const express = require('express');
+const express = require('express')
 const router = express.Router()
 const handlersArticles = require('../controllers/handler-articles/handler-articles')
 const handlerAuth = require('../controllers/handler-auth/handler-auth')
 const config = require('../config')
-const jwtExpress = require('express-jwt')
+const jwtExpress = require('express-jwt');
+const {
+  articleValidationRules,
+  validateArticle
+} = require('../controllers/handler-articles/validation/validator')
 
 module.exports = () => {
-
   router.get('/api', handlersArticles.init)
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
@@ -25,7 +28,12 @@ module.exports = () => {
   
   router.post('/api/v1/log-admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
-  router.post('/api/v1/admin-users/save-article', handlerAuth.saveArticle)
 
+  router.post('/api/v1/admin/create-article',
+    articleValidationRules(),
+    validateArticle,
+    handlerAuth.saveArticle
+  )
+  
   return router
 }

@@ -161,10 +161,10 @@ exports.adminUsers = async (req, res) => {
 
 }
 
-/* -------------------------------------------------------------------------- */
-
+/* ---------------------- /api/v1/admin/create-article ---------------------- */
 
 exports.saveArticle = (req, res) => {
+  console.log(req.body)
   res.json({info: "Guardando articulo"})
 }
 

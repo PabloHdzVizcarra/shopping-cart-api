@@ -15,6 +15,10 @@ const articleSchema = new Schema({
   },
   image: {
     type: String,
+  },
+  admin: {
+    type: String,
+    required: true
   }
 })
 
