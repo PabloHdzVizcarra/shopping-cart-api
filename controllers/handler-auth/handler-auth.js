@@ -5,7 +5,7 @@ const config = require('../../config')
 const { AdminUsersSchema } = require('../../models/admin-users-schema')
 const LOG = require('debug')('app')
 
-exports.loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req.body
   
   try {
@@ -45,7 +45,7 @@ exports.loginUser = async (req, res) => {
 
 }
 
-exports.registerUser = async(req, res) => {
+const registerUser = async(req, res) => {
   const { email, password, username } = req.body
   const passwordHash = bcrypt.hashSync(password, 10)
   
@@ -69,7 +69,7 @@ exports.registerUser = async(req, res) => {
   }
 }
 
-exports.verifyUser = ((req, res) => {
+const verifyUser = ((req, res) => {
   jwt.verify(req.cookies.token, config.KEY_JWT, async (err, decoded) => {
 
     if (!decoded) {
@@ -120,7 +120,7 @@ exports.verifyUser = ((req, res) => {
 
 /* ------------------------- /api/v1/log-admin-users ------------------------ */
 
-exports.adminUsers = async (req, res) => {
+const adminUsers = async (req, res) => {
   LOG("Log with admin user")
   const { username, password } = req.body
 
@@ -163,14 +163,16 @@ exports.adminUsers = async (req, res) => {
 
 /* ---------------------- /api/v1/admin/create-article ---------------------- */
 
-exports.saveArticle = (req, res) => {
+const saveArticle = (req, res) => {
   console.log(req.body)
-  res.json({info: "Guardando articulo"})
+  console.log('Los datos son correctos')
+  res.json({ info: "Guardando articulo" })
+  return null
 }
 
 /* ----------------------- /api/v1/create-admin-users ----------------------- */
 
-exports.createAdminUsers = async (req, res) => {
+const createAdminUsers = async (req, res) => {
   const { passwordAdmin, dataUser } = req.body
   
 
@@ -202,4 +204,13 @@ exports.createAdminUsers = async (req, res) => {
     })
   }
   
+}
+
+module.exports = {
+  loginUser,
+  registerUser,
+  verifyUser,
+  adminUsers,
+  saveArticle,
+  createAdminUsers
 }
