@@ -3,9 +3,10 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../../config')
 const { AdminUsersSchema } = require('../../models/admin-users-schema')
+const { saveArticleInDatabase } = require('./create-article/saveArticleInDatabase')
 const LOG = require('debug')('app')
 
-const loginUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
   const { email, password } = req.body
   
   try {
@@ -45,7 +46,7 @@ const loginUser = async (req, res) => {
 
 }
 
-const registerUser = async(req, res) => {
+exports.registerUser = async(req, res) => {
   const { email, password, username } = req.body
   const passwordHash = bcrypt.hashSync(password, 10)
   
@@ -69,7 +70,7 @@ const registerUser = async(req, res) => {
   }
 }
 
-const verifyUser = ((req, res) => {
+exports.verifyUser = ((req, res) => {
   jwt.verify(req.cookies.token, config.KEY_JWT, async (err, decoded) => {
 
     if (!decoded) {
@@ -120,7 +121,7 @@ const verifyUser = ((req, res) => {
 
 /* ------------------------- /api/v1/log-admin-users ------------------------ */
 
-const adminUsers = async (req, res) => {
+exports.adminUsers = async (req, res) => {
   LOG("Log with admin user")
   const { username, password } = req.body
 
@@ -163,16 +164,30 @@ const adminUsers = async (req, res) => {
 
 /* ---------------------- /api/v1/admin/create-article ---------------------- */
 
-const saveArticle = (req, res) => {
-  console.log(req.body)
-  console.log('Los datos son correctos')
-  res.json({ info: "Guardando articulo" })
-  return null
+exports.saveArticle = async(req, res) => {
+  LOG('Ejecutando el guardado de articulo')
+
+  const result  = await saveArticleInDatabase(req.body)
+
+  if (result.error) {
+    return res.status(400).json({
+      error: true,
+      message: result.message
+    })
+  }
+
+  LOG("The data was created correctly to the database")
+  return res.status(201).json({
+    error: false,
+    data: result.data,
+    message: 'Se guardaron con exito los datos en la database'
+  })
+
 }
 
 /* ----------------------- /api/v1/create-admin-users ----------------------- */
 
-const createAdminUsers = async (req, res) => {
+exports.createAdminUsers = async (req, res) => {
   const { passwordAdmin, dataUser } = req.body
   
 
@@ -204,13 +219,4 @@ const createAdminUsers = async (req, res) => {
     })
   }
   
-}
-
-module.exports = {
-  loginUser,
-  registerUser,
-  verifyUser,
-  adminUsers,
-  saveArticle,
-  createAdminUsers
 }
