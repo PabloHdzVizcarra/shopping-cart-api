@@ -164,12 +164,13 @@ exports.adminUsers = async (req, res) => {
 
 /* ---------------------- /api/v1/admin/create-article ---------------------- */
 
-exports.saveArticle = async(req, res) => {
-  LOG('Ejecutando el guardado de articulo')
+exports.saveArticle = async (req, res) => {
+  LOG('route "/api/v1/admin/create-article"')
 
   const result  = await saveArticleInDatabase(req.body)
 
   if (result.error) {
+    LOG("An error ocurred in the database")
     return res.status(400).json({
       error: true,
       message: result.message
