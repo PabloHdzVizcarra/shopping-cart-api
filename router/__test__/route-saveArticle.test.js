@@ -1,13 +1,9 @@
 const request = require('supertest')
 const app = require('../../app')
-const { saveArticle } = require('../../controllers/handler-auth/handler-auth')
 const middleware = require('../../controllers/handler-auth/handler-auth')
 
-describe('Test in router saveArticle', () => {
 
-  afterEach(() => {
-    jest.restoreAllMocks()
-  })
+describe('Test in router saveArticle', () => {
   
   test('if no data is sent in the body, it must return a status code of 422', async () => {
     const res = await request(app)
@@ -95,15 +91,21 @@ describe('Test in router saveArticle', () => {
     expect(res.body.errors[0].category).toEqual(expect.any(String))
   })
 
-  // test('when all data passed in the request is valid you should call the saveArticle middleware', async () => {
-  //   const res = await request(app)
-  //     .post("/api/v1/admin/create-article")
-  //     .send({
-  //       image: 'www.google.com',
-  //       name: 'Milk',
-  //       admin: 'jhon',
-  //       price: 60,
-  //       category: 'general'
-  //     })
-  // })
+  test('when all data passed in the request is valid you should call the saveArticle middleware', async () => {
+    const saveArticle = jest.spyOn(middleware, 'saveArticle').mockReturnValue('success')
+
+    const res = await request(app)
+      .post("/api/v1/admin/create-article")
+      .send({
+        image: 'www.google.com',
+        name: 'Milk',
+        admin: 'jhon',
+        price: 60,
+        category: 'general'
+      })
+    
+    expect(res.status).toBe(201)
+    saveArticle()  
+    expect(saveArticle).toHaveBeenCalled()
+  })
 })

@@ -22,8 +22,5 @@ const articleSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model(
-  'articleCart',
-  articleSchema,
-  'list_articles'
-)
+const ArticleSchema = mongoose.model('articleSchema', articleSchema, 'articles')
+module.exports = ArticleSchema
