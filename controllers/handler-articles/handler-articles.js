@@ -73,3 +73,8 @@ exports.deleteOneProductById = async (req, res) => {
     res.status(500).send(error)
   }
 }
+
+exports.getAllArticles = async (req, res) => {
+  LOG(req.cookies.token) 
+  res.send('testando')
+}

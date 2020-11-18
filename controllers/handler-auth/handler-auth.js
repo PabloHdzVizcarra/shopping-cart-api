@@ -124,6 +124,7 @@ exports.verifyUser = ((req, res) => {
 exports.adminUsers = async (req, res) => {
   LOG("Log with admin user")
   const { username, password } = req.body
+  LOG(username, password)
 
   try {
     const userFromDB = await AdminUsersSchema.findOne({ username })

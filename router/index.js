@@ -21,6 +21,7 @@ module.exports = () => {
     }),
     handlersArticles.getAllProductsCart
   )
+  router.get('/api/v1/all-articles', handlersArticles.getAllArticles)
 
   router.post('/api/auth/login-user', handlerAuth.loginUser)
   router.get('/api/auth/verify-user', handlerAuth.verifyUser)
