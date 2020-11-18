@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator')
+const LOG = require('debug')('app')
 
 const articleValidationRules = () => {
   return [
@@ -24,9 +25,10 @@ const validateArticle = (req, res, next) => {
     return next()
   }
   const extractedErrors = []
-  errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+  errors.array().map(err => extractedErrors.push(err.msg ))
   
-  return res.status(422).json({
+  LOG('A data validation error ocurred')
+  return res.status(404).json({
     errors: extractedErrors,
   })
 

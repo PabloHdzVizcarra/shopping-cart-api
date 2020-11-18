@@ -166,6 +166,7 @@ exports.adminUsers = async (req, res) => {
 
 exports.saveArticle = async (req, res) => {
   LOG('route "/api/v1/admin/create-article"')
+  console.log(req.body)
 
   const result  = await saveArticleInDatabase(req.body)
 
