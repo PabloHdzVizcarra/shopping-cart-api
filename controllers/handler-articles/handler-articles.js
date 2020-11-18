@@ -75,6 +75,6 @@ exports.deleteOneProductById = async (req, res) => {
 }
 
 exports.getAllArticles = async (req, res) => {
-  LOG(req.cookies.token) 
+  LOG(req.user)
   res.send('testando')
 }
