@@ -192,7 +192,6 @@ exports.saveArticle = async (req, res) => {
 
 exports.createAdminUsers = async (req, res) => {
   const { passwordAdmin, dataUser } = req.body
-  
 
   if (passwordAdmin !== config.PASSWORD_ADMIN) {
     res.status(401).json({
@@ -201,7 +200,6 @@ exports.createAdminUsers = async (req, res) => {
   }
 
   const passwordHash = bcrypt.hashSync(dataUser.password, 10)
-
   const adminUser = {
     username: dataUser.name,
     password: passwordHash,
@@ -209,7 +207,6 @@ exports.createAdminUsers = async (req, res) => {
   }
 
   try {
-    
     const newAdminUser = new AdminUsersSchema({ ...adminUser })
     await newAdminUser.save()
 

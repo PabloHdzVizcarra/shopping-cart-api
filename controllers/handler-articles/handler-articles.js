@@ -1,4 +1,4 @@
-const ArticleCart  = require("../../models/article-schema")
+const ArticleSchema  = require("../../models/article-schema")
 const LOG = require('debug')('app')
 
 exports.init = (req, res) => {
@@ -41,7 +41,7 @@ exports.addProductCart = async (req, res) => {
 exports.getAllProductsCart = async (req, res) => {
 
   try {
-    const dataFromDB = await ArticleCart.find({})
+    const dataFromDB = await ArticleSchema.find({})
     LOG('Se obtienen todos los productos de la DB')
     res.json(dataFromDB)
     
@@ -75,6 +75,22 @@ exports.deleteOneProductById = async (req, res) => {
 }
 
 exports.getAllArticles = async (req, res) => {
-  LOG(req.user)
-  res.send('testando')
+
+  try {
+    const dataFromDatabase = await ArticleSchema.find({})
+    res.json({
+      error: false,
+      data: dataFromDatabase
+    })
+    
+    LOG("Get all articles from database")
+    return null
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message
+    })
+    return null
+  }
+  
 }
