@@ -93,7 +93,7 @@ describe('Test in end-point "/api/v1/admin/create-article"', () => {
       name: "milk",
       price: "45"
     })
-  
+
     expect(helpers.saveArticleInDatabase).toHaveBeenCalled()
     expect(response.body).toHaveProperty('error')
     expect(response.body).toHaveProperty('message')
@@ -101,6 +101,7 @@ describe('Test in end-point "/api/v1/admin/create-article"', () => {
       error: true,
       message: "ha ocurrido un error en la database",
     })
+
   })
   
   
