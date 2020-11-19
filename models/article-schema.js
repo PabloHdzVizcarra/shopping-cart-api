@@ -23,4 +23,25 @@ const articleSchema = new Schema({
 })
 
 const ArticleSchema = mongoose.model('articleSchema', articleSchema, 'articles')
-module.exports = ArticleSchema
+
+const getAllDataFromArticleSchema = async () => {
+  try {
+    const data = await ArticleSchema.find({})
+    return ({
+      error: false,
+      message: 'data obtained successfully from the database',
+      data: data
+    })
+  } catch (error) {
+    return ({
+      error: true,
+      message: error.message,
+      data: []
+    })
+  }
+}
+
+module.exports = {
+  ArticleSchema,
+  getAllDataFromArticleSchema
+}

@@ -30,7 +30,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
     "test": "NODE_ENV=test jest --watch --runInBand --detectOpenHandles",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test:env": "NODE_ENV=test jest --watch -o --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",

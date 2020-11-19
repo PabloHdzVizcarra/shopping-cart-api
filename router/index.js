@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const handlersArticles = require('../controllers/handler-articles/handler-articles')
 const handlerAuth = require('../controllers/handler-auth/handler-auth')
-const config = require('../config')
-const jwtExpress = require('express-jwt');
 const {
   articleValidationRules,
   validateArticle
@@ -15,11 +13,7 @@ module.exports = () => {
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
   router.get('/api/all-products-cart',
-    jwtExpress({
-      secret: config.KEY_JWT,
-      getToken:  req => req.cookies.token,
-      algorithms: ['HS256']
-    }),
+    authenticatedToken,
     handlersArticles.getAllProductsCart
   )
   router.get('/api/v1/all-articles',
@@ -30,10 +24,8 @@ module.exports = () => {
   router.post('/api/auth/login-user', handlerAuth.loginUser)
   router.get('/api/auth/verify-user', handlerAuth.verifyUser)
   router.post('/api/auth/register-user', handlerAuth.registerUser)
-  
   router.post('/api/v1/log-admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
-
   router.post('/api/v1/admin/create-article',
     articleValidationRules(),
     validateArticle,

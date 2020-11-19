@@ -124,7 +124,6 @@ exports.verifyUser = ((req, res) => {
 exports.adminUsers = async (req, res) => {
   LOG("Log with admin user")
   const { username, password } = req.body
-  LOG(username, password)
 
   try {
     const userFromDB = await AdminUsersSchema.findOne({ username })
@@ -167,10 +166,7 @@ exports.adminUsers = async (req, res) => {
 
 exports.saveArticle = async (req, res) => {
   LOG('route "/api/v1/admin/create-article"')
-  console.log(req.body)
-
   const result  = await saveArticleInDatabase(req.body)
-
   if (result.error) {
     LOG("An error ocurred in the database")
     return res.status(400).json({
