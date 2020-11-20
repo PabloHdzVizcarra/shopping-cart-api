@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../../config')
 const { AdminUsersSchema } = require('../../models/admin-users-schema')
-const { saveArticleInDatabase } = require('./create-article/saveArticleInDatabase')
+const { createNewArticleUsingSchema } = require('../../models/article-schema')
 const LOG = require('debug')('app')
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body
-  
+
   try {
     const userFromDB = await UsersAuthSchema.findOne({ email: email })
 
@@ -30,9 +30,9 @@ exports.loginUser = async (req, res) => {
     )
 
     res.cookie('token', token, { httpOnly: true })
-    
+
     LOG('Usuario logeado con exito')
-    
+
     res.json({
       username: userFromDB.username,
       email: userFromDB.email,
@@ -42,14 +42,14 @@ exports.loginUser = async (req, res) => {
   } catch (error) {
     LOG("Error al loguear usuario")
     return res.send(error.message)
-  } 
+  }
 
 }
 
 exports.registerUser = async(req, res) => {
   const { email, password, username } = req.body
   const passwordHash = bcrypt.hashSync(password, 10)
-  
+
   try {
     const userCreated = new UsersAuthSchema({
       email, password: passwordHash, username
@@ -81,7 +81,7 @@ exports.verifyUser = ((req, res) => {
       })
       return null
     }
-    
+
     if (err) {
       LOG(err)
       res.json({
@@ -89,7 +89,7 @@ exports.verifyUser = ((req, res) => {
       })
       return null
     }
-    
+
     try {
       const userFromDB = await UsersAuthSchema.findOne({ email: decoded.email})
 
@@ -111,13 +111,13 @@ exports.verifyUser = ((req, res) => {
       res.status(404).json({
         message: 'No existe ese usuario'
       })
-      
+
     } catch (error) {
       LOG(error)
       res.json({error})
     }
   })
-}) 
+})
 
 /* ------------------------- /api/v1/log-admin-users ------------------------ */
 
@@ -143,7 +143,7 @@ exports.adminUsers = async (req, res) => {
         message: "La password que ingresaste no coincide"
       })
     }
-  
+
     res.json({
       error: false,
       userData: {
@@ -152,7 +152,7 @@ exports.adminUsers = async (req, res) => {
         isAdmin: true
       }
     })
-    
+
   } catch (error) {
     res.status(409).json({
       error: true,
@@ -166,18 +166,15 @@ exports.adminUsers = async (req, res) => {
 
 exports.saveArticle = async (req, res) => {
   LOG('route "/api/v1/admin/create-article"')
-  const result  = await saveArticleInDatabase(req.body)
+  const result = await createNewArticleUsingSchema(req.body)
+
   if (result.error) {
-    LOG("An error ocurred in the database")
-    return res.status(400).json({
-      error: true,
-      message: result.message
-    })
+    LOG("ERROR: An error ocurred in the database")
+    return res.sendStatus(500)
   }
 
-  LOG("The data was created correctly to the database")
+  LOG("SUCCESS: The data was created correctly to the database")
   return res.status(201).json({
-    error: false,
     data: result.data,
     message: 'Se guardaron con exito los datos en la database'
   })
@@ -214,5 +211,5 @@ exports.createAdminUsers = async (req, res) => {
       msg: error.message
     })
   }
-  
+
 }

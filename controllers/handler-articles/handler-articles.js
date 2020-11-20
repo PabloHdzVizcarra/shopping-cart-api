@@ -75,10 +75,10 @@ exports.deleteOneProductById = async (req, res) => {
   }
 }
 
-
 /* -------------------------- /api/v1/all-articles -------------------------- */
 
 exports.getAllArticles = async (req, res) => {
+  LOG("Get all articles from database")
   const { error, message, data } = await getAllDataFromArticleSchema()
   if (error) return res.sendStatus(500)
   res.status(200).json({

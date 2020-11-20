@@ -25,7 +25,6 @@ const articleSchema = new Schema({
     required: true
   }
 })
-
 const ArticleSchema = mongoose.model('articleSchema', articleSchema, 'articles')
 
 const getAllDataFromArticleSchema = async () => {
@@ -45,7 +44,26 @@ const getAllDataFromArticleSchema = async () => {
   }
 }
 
+const createNewArticleUsingSchema = async (data) => {
+  try {
+    const result = new ArticleSchema(data)
+    await result.save()
+
+    return ({
+      error: false,
+      message: 'save in database correctly',
+      data: data
+    })
+
+  } catch (error) {
+    return ({
+      error: true
+    })
+  }
+}
+
 module.exports = {
   ArticleSchema,
-  getAllDataFromArticleSchema
+  getAllDataFromArticleSchema,
+  createNewArticleUsingSchema
 }
