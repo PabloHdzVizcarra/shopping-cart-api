@@ -15,18 +15,23 @@ const articleValidationRules = () => {
       .isLength({ min: 3 }),
     body('price', 'El precio que ingresaste no es valido')
       .isNumeric()
+      .not().isEmpty(),
+    body('description', 'La descripcion del producto no esta definida')
+      .isString()
       .not().isEmpty()
+      .isLength({min: 9})
   ]
 }
 
 const validateArticle = (req, res, next) => {
   const errors = validationResult(req)
+  console.log(errors)
   if (errors.isEmpty()) {
     return next()
   }
   const extractedErrors = []
   errors.array().map(err => extractedErrors.push(err.msg ))
-  
+
   LOG('A data validation error ocurred')
   return res.status(404).json({
     errors: extractedErrors,

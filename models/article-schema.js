@@ -19,6 +19,10 @@ const articleSchema = new Schema({
   admin: {
     type: String,
     required: true
+  },
+  description: {
+    type: String,
+    required: true
   }
 })
 
