@@ -19,7 +19,9 @@ const articleValidationRules = () => {
     body('description', 'La descripcion del producto no esta definida')
       .isString()
       .not().isEmpty()
-      .isLength({min: 9})
+      .isLength({ min: 9 }),
+    body('userID', 'debes estar logueado como administrador')
+      .isString()
   ]
 }
 

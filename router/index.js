@@ -7,7 +7,7 @@ const {
   validateArticle
 } = require('../controllers/handler-articles/validation/validator')
 const { authenticatedToken } = require('../middleware/authenticate-token/authenticatedToken')
-const { authUserById } = require('../middleware/authenticate-token/autheticated-by-user-id/auth-user-by-id')
+const { authUserById } = require('../middleware/autheticated-by-user-id/auth-user-by-id')
 
 module.exports = () => {
   router.get('/api', handlersArticles.init)
