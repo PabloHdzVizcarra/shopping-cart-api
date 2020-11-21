@@ -105,6 +105,7 @@ exports.verifyUser = ((req, res) => {
         })
 
         return null
+
       }
 
       LOG('El usuario no existe')

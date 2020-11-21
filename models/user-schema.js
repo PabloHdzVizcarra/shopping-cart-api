@@ -7,7 +7,6 @@ const usersSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    
   },
   password: {
     type: String,
@@ -21,6 +20,16 @@ const usersSchema = new Schema({
 
 const UsersAuthSchema = mongoose.model('usersAuth', usersSchema, collectionName)
 
+const getUserByIDUsersSchema = async id => {
+  try {
+    await UsersAuthSchema.findById(id)
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 module.exports = {
-  UsersAuthSchema
+  UsersAuthSchema,
+  getUserByIDUsersSchema
 }

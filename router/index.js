@@ -7,6 +7,7 @@ const {
   validateArticle
 } = require('../controllers/handler-articles/validation/validator')
 const { authenticatedToken } = require('../middleware/authenticate-token/authenticatedToken')
+const { authUserById } = require('../middleware/authenticate-token/autheticated-by-user-id/auth-user-by-id')
 
 module.exports = () => {
   router.get('/api', handlersArticles.init)
@@ -26,11 +27,13 @@ module.exports = () => {
   router.post('/api/auth/register-user', handlerAuth.registerUser)
   router.post('/api/v1/log-admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
+
   router.post('/api/v1/admin/create-article',
     articleValidationRules(),
     validateArticle,
+    authUserById,
     handlerAuth.saveArticle
   )
-  
+
   return router
 }
