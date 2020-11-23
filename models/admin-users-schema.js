@@ -10,12 +10,12 @@ const adminUsersSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   isAdmin: {
     type: Boolean,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const AdminUsersSchema = mongoose.model(
@@ -25,5 +25,5 @@ const AdminUsersSchema = mongoose.model(
 )
 
 module.exports = {
-  AdminUsersSchema
+  AdminUsersSchema,
 }

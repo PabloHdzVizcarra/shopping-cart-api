@@ -14,8 +14,8 @@ const usersSchema = new Schema({
   },
   username: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const UsersAuthSchema = mongoose.model('usersAuth', usersSchema, collectionName)
@@ -31,5 +31,5 @@ const getUserByIDUsersSchema = async id => {
 
 module.exports = {
   UsersAuthSchema,
-  getUserByIDUsersSchema
+  getUserByIDUsersSchema,
 }

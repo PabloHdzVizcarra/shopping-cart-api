@@ -4,20 +4,26 @@ const handlersArticles = require('../controllers/handler-articles/handler-articl
 const handlerAuth = require('../controllers/handler-auth/handler-auth')
 const {
   articleValidationRules,
-  validateArticle
+  validateArticle,
 } = require('../controllers/handler-articles/validation/validator')
-const { authenticatedToken } = require('../middleware/authenticate-token/authenticatedToken')
-const { authUserById } = require('../middleware/autheticated-by-user-id/auth-user-by-id')
+const {
+  authenticatedToken,
+} = require('../middleware/authenticate-token/authenticatedToken')
+const {
+  authUserById,
+} = require('../middleware/autheticated-by-user-id/auth-user-by-id')
 
 module.exports = () => {
   router.get('/api', handlersArticles.init)
   router.post('/api/add-product-cart', handlersArticles.addProductCart)
   router.delete('/api/delete-product', handlersArticles.deleteOneProductById)
-  router.get('/api/all-products-cart',
+  router.get(
+    '/api/all-products-cart',
     authenticatedToken,
     handlersArticles.getAllProductsCart
   )
-  router.get('/api/v1/all-articles',
+  router.get(
+    '/api/v1/all-articles',
     authenticatedToken,
     handlersArticles.getAllArticles
   )
@@ -28,7 +34,8 @@ module.exports = () => {
   router.post('/api/v1/log-admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
 
-  router.post('/api/v1/admin/create-article',
+  router.post(
+    '/api/v1/admin/create-article',
     articleValidationRules(),
     validateArticle,
     authUserById,

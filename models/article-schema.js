@@ -4,11 +4,11 @@ const { Schema } = mongoose
 const articleSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   category: {
     type: String,
@@ -18,52 +18,51 @@ const articleSchema = new Schema({
   },
   admin: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 const ArticleSchema = mongoose.model('articleSchema', articleSchema, 'articles')
 
 const getAllDataFromArticleSchema = async () => {
   try {
     const data = await ArticleSchema.find({})
-    return ({
+    return {
       error: false,
       message: 'data obtained successfully from the database',
-      data: data
-    })
+      data: data,
+    }
   } catch (error) {
-    return ({
+    return {
       error: true,
       message: error.message,
-      data: []
-    })
+      data: [],
+    }
   }
 }
 
-const createNewArticleUsingSchema = async (data) => {
+const createNewArticleUsingSchema = async data => {
   try {
     const result = new ArticleSchema(data)
     await result.save()
 
-    return ({
+    return {
       error: false,
       message: 'save in database correctly',
-      data: data
-    })
-
+      data: data,
+    }
   } catch (error) {
-    return ({
-      error: true
-    })
+    return {
+      error: true,
+    }
   }
 }
 
 module.exports = {
   ArticleSchema,
   getAllDataFromArticleSchema,
-  createNewArticleUsingSchema
+  createNewArticleUsingSchema,
 }

@@ -1,22 +1,20 @@
-const ArticleSchema = require("../../../models/article-schema")
+const ArticleSchema = require('../../../models/article-schema')
 
-exports.saveArticleInDatabase = async (data) => {
+exports.saveArticleInDatabase = async data => {
   console.log(data)
   try {
     const newArticle = new ArticleSchema({ ...data })
     await newArticle.save()
 
-    return ({
+    return {
       error: false,
       message: 'Articulo guardado con exito',
-      data: newArticle
-    })
-
+      data: newArticle,
+    }
   } catch (error) {
-    return ({
+    return {
       error: true,
-      message: error.message
-    })
+      message: error.message,
+    }
   }
-
 }

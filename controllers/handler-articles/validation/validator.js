@@ -3,10 +3,8 @@ const LOG = require('debug')('app')
 
 const articleValidationRules = () => {
   return [
-    body('admin', 'debes estar logueado como andministrador')
-      .isString(),
-    body('image', 'La url de la imagen debe ser valida')
-      .isURL(),
+    body('admin', 'debes estar logueado como andministrador').isString(),
+    body('image', 'La url de la imagen debe ser valida').isURL(),
     body('category', 'Debes proporcionar una categoria valida')
       .isString()
       .isLength({ min: 1 }),
@@ -15,13 +13,14 @@ const articleValidationRules = () => {
       .isLength({ min: 3 }),
     body('price', 'El precio que ingresaste no es valido')
       .isNumeric()
-      .not().isEmpty(),
+      .not()
+      .isEmpty(),
     body('description', 'La descripcion del producto no esta definida')
       .isString()
-      .not().isEmpty()
+      .not()
+      .isEmpty()
       .isLength({ min: 9 }),
-    body('userID', 'debes estar logueado como administrador')
-      .isString()
+    body('userID', 'debes estar logueado como administrador').isString(),
   ]
 }
 
@@ -31,16 +30,15 @@ const validateArticle = (req, res, next) => {
     return next()
   }
   const extractedErrors = []
-  errors.array().map(err => extractedErrors.push(err.msg ))
+  errors.array().map(err => extractedErrors.push(err.msg))
 
   LOG('A data validation error ocurred')
   return res.status(404).json({
     errors: extractedErrors,
   })
-
 }
 
 module.exports = {
   articleValidationRules,
-  validateArticle
+  validateArticle,
 }
