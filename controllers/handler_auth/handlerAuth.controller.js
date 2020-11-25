@@ -1,9 +1,9 @@
-const { UsersAuthSchema } = require('../../models/user-schema')
+const { UsersAuthSchema } = require('../../models/users.schema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../../config')
-const { AdminUsersSchema } = require('../../models/admin-users-schema')
-const { createNewArticleUsingSchema } = require('../../models/article-schema')
+const { AdminUsersSchema } = require('../../models/adminUsers.schema')
+const { createNewArticleUsingSchema } = require('../../models/article.schema')
 const LOG = require('debug')('app')
 
 exports.loginUser = async (req, res) => {

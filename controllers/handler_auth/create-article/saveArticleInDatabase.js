@@ -1,4 +1,4 @@
-const ArticleSchema = require('../../../models/article-schema')
+const ArticleSchema = require('../../../models/article.schema')
 
 exports.saveArticleInDatabase = async data => {
   try {

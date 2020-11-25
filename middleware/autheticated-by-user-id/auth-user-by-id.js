@@ -1,4 +1,4 @@
-const { getUserByIDUsersSchema } = require('../../models/user-schema')
+const { getUserByIDUsersSchema } = require('../../models/users.schema')
 
 exports.authUserById = async (req, res, next) => {
   console.log('funcion original')

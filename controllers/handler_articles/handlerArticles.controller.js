@@ -1,7 +1,7 @@
 const {
   getAllDataFromArticleSchema,
   ArticleSchema,
-} = require('../../models/article-schema')
+} = require('../../models/article.schema')
 const LOG = require('debug')('app')
 
 exports.init = (req, res) => {

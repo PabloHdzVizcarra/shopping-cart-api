@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const handlersArticles = require('../controllers/handler-articles/handler-articles')
-const handlerAuth = require('../controllers/handler-auth/handler-auth')
+const handlersArticles = require('../controllers/handler_articles/handlerArticles.controller')
+const handlerAuth = require('../controllers/handler_auth/handlerAuth.controller')
 const {
   articleValidationRules,
   validateArticle,
-} = require('../controllers/handler-articles/validation/validator')
+} = require('../controllers/handler_articles/validation/validator')
 const {
   authenticatedToken,
 } = require('../middleware/authenticate-token/authenticatedToken')
@@ -33,7 +33,6 @@ module.exports = () => {
   router.post('/api/auth/register-user', handlerAuth.registerUser)
   router.post('/api/v1/log-admin-users', handlerAuth.adminUsers)
   router.post('/api/v1/create-admin-users', handlerAuth.createAdminUsers)
-
   router.post(
     '/api/v1/admin/create-article',
     articleValidationRules(),
