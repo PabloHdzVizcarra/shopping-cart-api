@@ -1,7 +1,6 @@
 const ArticleSchema = require('../../../models/article-schema')
 
 exports.saveArticleInDatabase = async data => {
-  console.log(data)
   try {
     const newArticle = new ArticleSchema({ ...data })
     await newArticle.save()

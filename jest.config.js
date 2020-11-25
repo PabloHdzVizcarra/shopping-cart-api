@@ -1,5 +1,5 @@
 module.exports = {
-  verbose: true,
-  testEnvironment: 'node',
-  coveragePathIgnorePatterns: ['/node_modules/'],
+  verbose: true, // autocompletado jest
+  testEnvironment: 'node', // entorno de desarrollo por defecto jsdom
+  coveragePathIgnorePatterns: ['/node_modules/'], // que archivos ignorara jest
 }
