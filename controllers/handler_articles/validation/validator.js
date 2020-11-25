@@ -24,7 +24,16 @@ const articleValidationRules = () => {
   ]
 }
 
-const validateArticle = (req, res, next) => {
+const addProductToCartRules = () => {
+  return [
+    body('name', 'El nombre de articulo que agregaste no es valido')
+      .isString()
+      .isEmpty(),
+    body('price', 'No agregaste un precio al producto').isEmpty(),
+  ]
+}
+
+const validateMiddleware = (req, res, next) => {
   const errors = validationResult(req)
   if (errors.isEmpty()) {
     return next()
@@ -33,12 +42,13 @@ const validateArticle = (req, res, next) => {
   errors.array().map(err => extractedErrors.push(err.msg))
 
   LOG('A data validation error ocurred')
-  return res.status(404).json({
+  return res.status(422).json({
     errors: extractedErrors,
   })
 }
 
 module.exports = {
   articleValidationRules,
-  validateArticle,
+  validateMiddleware,
+  addProductToCartRules,
 }
